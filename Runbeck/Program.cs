@@ -15,13 +15,30 @@ namespace Runbeck
 
                 Console.WriteLine("Where is file located?");
                 var path = Console.ReadLine(); //"Users/collincouch/Projects/Runbeck/Runbeck/test.tsv";
+                while(!File.Exists(path))
+                {
+                    Console.WriteLine("File cannot be found.  Please enter in a valid path.");
+                    path = Console.ReadLine();
+                }
 
                 
                 Console.WriteLine("Is the file format CSV (comma-separated values) or TSV (tab-separated values)?");
-                var format = Console.ReadLine(); //"TSV";
+                var format = Console.ReadLine().Trim(); //"TSV";
+                while(format.ToUpper()!= "TSV" && format.ToUpper() != "CSV")
+                {
+                    Console.WriteLine("You must type in TSV or CSV");
+                    format = Console.ReadLine().Trim();
+                }
 
                 Console.WriteLine("How many fields should each record contain?");
-                var numOfFields = Console.ReadLine();  //3
+                int i;
+                string numOfFields = Console.ReadLine().Trim();  //3
+                while(!Int32.TryParse(numOfFields, out i))
+                {
+                    Console.WriteLine("You must enter a number");
+                    numOfFields = Console.ReadLine().Trim();
+                }
+               
 
                 ReadData(path, format, int.Parse(numOfFields));
 
@@ -34,7 +51,12 @@ namespace Runbeck
             }
 
         }
-
+        /// <summary>
+        /// Parse the input file
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="fileType"></param>
+        /// <param name="numOfFields"></param>
         private static void ReadData(string fileName, string fileType, int numOfFields)
         {
 
@@ -104,7 +126,7 @@ namespace Runbeck
 
                 }
 
-                Console.WriteLine("Press enter to close...");
+                Console.WriteLine("End processing.  Press enter to close...");
                 Console.ReadLine();
 
             }
@@ -116,7 +138,14 @@ namespace Runbeck
            
         }
 
-
+        /// <summary>
+        /// This will write success and error files if records exist to
+        /// the bin/outputfiles directory
+        /// </summary>
+        /// <param name="results"></param>
+        /// <param name="successOrErrorFile"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
         private static string WriteFile(Dictionary<int,string> results,string successOrErrorFile, string format)
         {
             string outPutDirectory = Directory.GetCurrentDirectory() + "\\OutputFiles";
