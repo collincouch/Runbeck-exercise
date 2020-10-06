@@ -33,5 +33,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="test.csv" />
+    <None Include="test.tsv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="OutputFiles\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
